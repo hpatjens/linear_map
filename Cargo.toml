@@ -1,0 +1,6 @@
+[package]
+name = "linear_map"
+version = "0.1.0"
+authors = ["Henrik Patjens <hpatjens@gmail.com>"]
+
+[dependencies]
