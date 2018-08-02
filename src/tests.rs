@@ -177,4 +177,67 @@ mod tests {
         assert_eq!(iter.next(), Some((&1, &mut String::from("orld!"))));
         assert_eq!(iter.next(), None);
     }
+
+    #[test]
+    fn into_iter() {
+        let mut map = LinearMap::new();
+        map.insert(0, String::from("Hello"));
+        map.insert(1, String::from("World!"));
+
+        let mut iter = map.into_iter();
+        assert_eq!(iter.next(), Some((0, String::from("Hello"))));
+        assert_eq!(iter.next(), Some((1, String::from("World!"))));
+        assert_eq!(iter.next(), None);
+    }
+
+    #[test]
+    fn for_into_iter() {
+        let mut map = LinearMap::new();
+        map.insert(0, String::from("Hello"));
+        map.insert(1, String::from("World!"));
+
+        let mut vec = Vec::new();
+        for (k, v) in map {
+            vec.push((k, v));
+        }
+
+        let mut iter = vec.into_iter();
+        assert_eq!(iter.next(), Some((0, String::from("Hello"))));
+        assert_eq!(iter.next(), Some((1, String::from("World!"))));
+        assert_eq!(iter.next(), None);
+    }
+
+    #[test]
+    fn for_iter() {
+        let mut map = LinearMap::new();
+        map.insert(0, String::from("Hello"));
+        map.insert(1, String::from("World!"));
+
+        let mut vec = Vec::new();
+        for (k, v) in &map {
+            vec.push((k, v));
+        }
+
+        let mut iter = vec.into_iter();
+        assert_eq!(iter.next(), Some((&0, &String::from("Hello"))));
+        assert_eq!(iter.next(), Some((&1, &String::from("World!"))));
+        assert_eq!(iter.next(), None);
+    }
+
+
+    #[test]
+    fn for_iter_mut() {
+        let mut map = LinearMap::new();
+        map.insert(0, String::from("Hello"));
+        map.insert(1, String::from("World!"));
+
+        for (_, v) in &mut map {
+            v.remove(0);
+        }
+
+        let mut iter = map.iter();
+        assert_eq!(iter.next(), Some((&0, &String::from("ello"))));
+        assert_eq!(iter.next(), Some((&1, &String::from("orld!"))));
+        assert_eq!(iter.next(), None);
+    }
 }
